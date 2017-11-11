@@ -2,8 +2,17 @@ const discord = require("discord.js");
 const client = new discord.Client();
 const config = require("./config.json");
 const commands = require("./commands.js");
+const voice = require("./voice.js");
 
 client.on("ready", function() {
+    if (process.env.DEFAULT_GUILD && process.env.DEFAULT_VOICE) {
+        const guild = client.guilds.find("name", process.env.DEFAULT_GUILD);
+        const voiceChannel = guild.channels.find("name", process.env.DEFAULT_VOICE);
+        voiceChannel.join().then(function (connection) {
+           voice.setConnection(connection);
+        });
+    }
+
     console.log("IMOUTO-BOT 3000 IS READY");
 });
 
