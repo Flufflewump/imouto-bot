@@ -60,11 +60,13 @@ module.exports = {
             args.push('-loli', '-shota');
 
             booru.search(site, args, {random:true}).then(booru.commonfy).then(function(images) {
-                console.log(images[0].common.file_url);
+                const indexPage = "http://" + booru.resolveSite(site) + "/index.php?page=post&s=view&id=" + images[0].common.id;
                 message.channel.send({
-                    embed: {
-                        image: {
-                            url: images[0].common.file_url
+                    "embed": {
+                        "title": indexPage,
+                        "url": indexPage,
+                        "image": {
+                            "url": images[0].common.file_url
                         }
                     }
                 });
