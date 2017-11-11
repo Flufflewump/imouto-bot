@@ -1,0 +1,11 @@
+{
+  "name": "imoutobot",
+  "version": "1.0.0",
+  "description": "Shitty Discord chat bot",
+  "main": "bot.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.2.1"
+  }
+}
