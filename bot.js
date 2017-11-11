@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const client = new discord.Client();
 const config = require("./config.json");
+const keys = require("./keys.json");
 const commands = require("./commands.js");
 
 client.on("ready", function() {
@@ -18,11 +19,13 @@ client.on("message", function(message) {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
+    var name;
+
     // help command with no arguments lists all commands, with an argument it gives help for the given command
     if (command === "help") {
-        if (args.length == 0) {
+        if (args.length === 0) {
             var commandList = "";
-            for (var name in commands) {
+            for (name in commands) {
                 commandList += config.prefix + name + " ";
             }
             message.channel.send("Commands: " + commandList);
@@ -37,12 +40,11 @@ client.on("message", function(message) {
     }
 
     // Find the command in commands.js and run it
-    for (var name in commands) {
+    for (name in commands) {
         if (command === name) {
             commands[command].run(message, args);
         }
     }
-
 });
 
-client.login(config.token);
+client.login(keys.token);
