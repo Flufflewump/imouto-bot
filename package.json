@@ -6,6 +6,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "booru": "^0.3.3",
     "discord.js": "^11.2.1",
     "ffmpeg-binaries": "^3.2.2",
     "node-opus": "^0.2.7"

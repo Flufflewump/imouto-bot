@@ -1,4 +1,5 @@
 const fs = require("fs");
+const booru = require("booru");
 var voiceConnection = null;
 
 module.exports = {
@@ -40,5 +41,44 @@ module.exports = {
             }
         },
         help: "Says 'Onii-chan'"
+    },
+
+    "booru" : {
+        run: function(message, args) {
+            if (args.length === 0) {
+                message.reply("I need a site to search");
+                return;
+            }
+
+            const site = args.shift().toLowerCase();
+
+            if (!booru.resolveSite(site)) {
+                message.reply("I don't know that site");
+            }
+
+            // Get rid of things that would break Discord rules
+            args.push('-loli', '-shota');
+
+            booru.search(site, args, {random:true}).then(booru.commonfy).then(function(images) {
+                console.log(images[0].common.file_url);
+                message.channel.send({
+                    embed: {
+                        image: {
+                            url: images[0].common.file_url
+                        }
+                    }
+                });
+            }).catch(function(err) {
+                if (err.name === 'booruError') {
+                    console.log(err.message);
+                    if (err.message === "You didn't give any images") {
+                        message.reply("I didn't find any images!");
+                    }
+                } else {
+                    console.log(err);
+                }
+            });
+        },
+        help: "Gives a random image from a booru matching the given tags. Usage: booru [site] [tags]"
     }
 };
