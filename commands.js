@@ -1,6 +1,6 @@
 const fs = require("fs");
 const booru = require("booru");
-var voiceConnection = null;
+const voice = require("./voice.js");
 
 module.exports = {
     "ping" : {
@@ -22,8 +22,8 @@ module.exports = {
             if (message.member && message.member.voiceChannel) {
                 message.member.voiceChannel.join()
                     .then(function(connection) {
-                        voiceConnection = connection;
-                        voiceConnection.playFile('./sound/ohayou.wav');
+                        voice.setConnection(connection);
+                        voice.play('./sound/ohayou.wav');
                     })
             } else {
                 message.reply("you need to be in a voice channel");
@@ -34,11 +34,9 @@ module.exports = {
 
     "onii" : {
         run: function() {
-            if (voiceConnection) {
-                fs.readdir('./sound/onii', function(err, files) {
-                    voiceConnection.playFile('./sound/onii/' + files[Math.floor(Math.random()*files.length)]);
-                });
-            }
+            fs.readdir('./sound/onii', function(err, files) {
+                voice.play('./sound/onii/' + files[Math.floor(Math.random()*files.length)]);
+            });
         },
         help: "Says 'Onii-chan'"
     },
