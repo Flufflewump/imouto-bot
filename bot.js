@@ -1,7 +1,6 @@
 const discord = require("discord.js");
 const client = new discord.Client();
 const config = require("./config.json");
-const keys = require("./keys.json");
 const commands = require("./commands.js");
 
 client.on("ready", function() {
@@ -47,4 +46,4 @@ client.on("message", function(message) {
     }
 });
 
-client.login(keys.token);
+client.login(process.env.DISC_TOKEN);
