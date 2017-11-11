@@ -1,3 +1,4 @@
+const fs = require("fs");
 var voiceConnection = null;
 
 module.exports = {
@@ -17,11 +18,10 @@ module.exports = {
 
     "join" : {
         run: function(message) {
-            if (message.member.voiceChannel) {
+            if (message.member && message.member.voiceChannel) {
                 message.member.voiceChannel.join()
                     .then(function(connection) {
                         voiceConnection = connection;
-                        message.reply("joined channel");
                         voiceConnection.playFile('./sound/ohayou.wav');
                     })
             } else {
@@ -29,5 +29,16 @@ module.exports = {
             }
         },
         help: "Join your voice channel"
+    },
+
+    "onii" : {
+        run: function() {
+            if (voiceConnection) {
+                fs.readdir('./sound/onii', function(err, files) {
+                    voiceConnection.playFile('./sound/onii/' + files[Math.floor(Math.random()*files.length)]);
+                });
+            }
+        },
+        help: "Says 'Onii-chan'"
     }
 };
