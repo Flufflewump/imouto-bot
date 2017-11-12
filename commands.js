@@ -1,4 +1,3 @@
-const fs = require("fs");
 const booru = require("booru");
 const voice = require("./voice.js");
 
@@ -29,14 +28,12 @@ module.exports = {
                 message.reply("you need to be in a voice channel");
             }
         },
-        help: "Join your voice channel"
+        help: "Joins your voice channel"
     },
 
     "onii" : {
         run: function() {
-            fs.readdir('./sound/onii', function(err, files) {
-                voice.play('./sound/onii/' + files[Math.floor(Math.random()*files.length)]);
-            });
+            voice.onii();
         },
         help: "Says 'Onii-chan'"
     },
