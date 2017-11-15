@@ -38,6 +38,13 @@ module.exports = {
         help: "Says 'Onii-chan'"
     },
 
+    "baka" : {
+        run: function() {
+            voice.baka();
+        },
+        help: "Onii-chan no bakaaaa"
+    },
+
     "booru" : {
         run: function(message, args) {
             if (args.length === 0) {
@@ -74,7 +81,7 @@ module.exports = {
                 } else {
                     console.log(err);
                 }
-            });
+            })
         },
         help: "Gives a random image from a booru matching the given tags. Usage: booru [site] [tags]"
     }

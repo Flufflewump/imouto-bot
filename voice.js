@@ -17,6 +17,10 @@ function onii() {
     playRandom('./sound/onii/');
 }
 
+function baka() {
+    playRandom('./sound/baka/');
+}
+
 function welcome() {
     playRandom('./sound/welcome/');
 }
@@ -33,6 +37,7 @@ function playRandom(directory) {
 
 module.exports.play = play;
 module.exports.onii = onii;
+module.exports.baka = baka;
 module.exports.setConnection = setConnection;
 module.exports.getChannel = getChannel;
 module.exports.welcome = welcome;
