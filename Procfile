@@ -1,1 +1,0 @@
-chatbot: node bot.js
