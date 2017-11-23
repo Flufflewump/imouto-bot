@@ -31,18 +31,33 @@ module.exports = {
         help: "Joins your voice channel"
     },
 
-    "onii" : {
-        run: function() {
-            voice.onii();
+    "say" : {
+        run: function(message, args) {
+            if (args.length === 0) {
+                message.reply("I need a directory to play from!");
+            } else {
+                voice.playRandom(args[0]);
+            }
         },
-        help: "Says 'Onii-chan'"
+        help: "Plays a random sound file from a directory."
     },
 
-    "baka" : {
-        run: function() {
-            voice.baka();
+    "spam" : {
+        run: function(message, args) {
+            if (args.length === 0) {
+                message.reply("I need a directory to play from!");
+            } else {
+                voice.spam(args[0]);
+            }
         },
-        help: "Onii-chan no bakaaaa"
+        help: "Says stuff forever"
+    },
+
+    "stop" : {
+        run: function() {
+            voice.stop();
+        },
+        help: "stops saying stuff"
     },
 
     "booru" : {

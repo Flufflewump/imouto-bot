@@ -27,12 +27,12 @@ client.on("message", function(message) {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    var name;
+    let name;
 
     // help command with no arguments lists all commands, with an argument it gives help for the given command
     if (command === "help") {
         if (args.length === 0) {
-            var commandList = "";
+            let commandList = "";
             for (name in commands) {
                 commandList += config.prefix + name + " ";
             }
@@ -63,7 +63,7 @@ client.on("voiceStateUpdate", function(oldMember, newMember) {
         // Check if the member moved to a channel the bot is in (only one channel for now - may change later)
         if (voice.getChannel().id === newMember.voiceChannelID
             && newMember.voiceChannelID !== oldMember.voiceChannelID) {
-            voice.welcome();
+            voice.playRandom('welcome');
         }
     }
 });

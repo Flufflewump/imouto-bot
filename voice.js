@@ -1,5 +1,9 @@
-var voiceConnection = null;
+let voiceConnection = null;
+let talkTimer = null;
+const config = require("./config.json");
+
 const fs = require("fs");
+const path = require("path");
 
 function setConnection(connection) {
     voiceConnection = connection;
@@ -13,31 +17,56 @@ function play(file) {
     }
 }
 
-function onii() {
-    playRandom('./sound/onii/');
+function playRandom(directory) {
+    let fullPath = path.join(config.soundDir, directory);
+
+    fs.readdir(fullPath, function(err, files) {
+        if (files.length > 0) {
+            play(path.join(fullPath, files[Math.floor(Math.random() * files.length)]));
+        } else {
+            // Empty directory, should probably give some kind of error message
+        }
+    });
 }
 
-function baka() {
-    playRandom('./sound/baka/');
+
+// Messing with playing everything in a directory in order, saving which one was next
+/*function inOrder() {
+    if (voiceConnection.speaking) {
+        return;
+    }
+
+    fs.readFile(config.soundDir + "stuff/next", function (err, data) {
+        if (err) {
+            throw err;
+        }
+        fs.readdir(config.soundDir + "stuff/", function(err, files) {
+            play(config.soundDir + "stuff/" + files[parseInt(data)]);
+            fs.writeFile(config.soundDir +"stuff/next", (parseInt(data) + 1) % files.length);
+        });
+
+    });
+}*/
+
+function spam(directory) {
+    talkTimer = setInterval( () => {
+        if (!voiceConnection.speaking) {
+            playRandom(directory);
+        }
+    }, 100);
 }
 
-function welcome() {
-    playRandom('./sound/welcome/');
+function stop() {
+    clearInterval(talkTimer);
 }
 
 function getChannel() {
     return voiceConnection.channel;
 }
 
-function playRandom(directory) {
-    fs.readdir(directory, function(err, files) {
-        play(directory + files[Math.floor(Math.random()*files.length)]);
-    });
-}
-
 module.exports.play = play;
-module.exports.onii = onii;
-module.exports.baka = baka;
+module.exports.playRandom = playRandom;
+module.exports.spam = spam;
+module.exports.stop = stop;
 module.exports.setConnection = setConnection;
 module.exports.getChannel = getChannel;
-module.exports.welcome = welcome;
