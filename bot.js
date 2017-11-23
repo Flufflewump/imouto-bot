@@ -55,4 +55,18 @@ client.on("message", function(message) {
     }
 });
 
+client.on("voiceStateUpdate", function(oldMember, newMember) {
+
+    // Ignore self
+    if (newMember.user.id !== client.user.id) {
+
+        // Check if the member moved to a channel the bot is in (only one channel for now - may change later)
+        if (voice.getChannel().id === newMember.voiceChannelID
+            && newMember.voiceChannelID !== oldMember.voiceChannelID) {
+            voice.welcome();
+        }
+    }
+});
+
+
 client.login(process.env.DISC_TOKEN);
